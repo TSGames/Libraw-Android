@@ -190,7 +190,8 @@ JNIEXPORT jstring JNICALL Java_com_tssystems_Libraw_getCameraList(JNIEnv * env, 
 	char message[1024*1024];
 	strcpy(message,"");
 	const char** list=libraw_cameraList();
-	for(int i=0;i<libraw_cameraCount();i++){
+	int i;
+	for(i=0;i<libraw_cameraCount();i++){
 		strcat(message,list[i]);
 		strcat(message,"\n");
 	}
@@ -207,8 +208,9 @@ JNIEXPORT jintArray JNICALL Java_com_tssystems_Libraw_getPixels8(JNIEnv * env, j
 			return NULL;
 		}
 		__android_log_print(ANDROID_LOG_INFO,"libraw","getPixels8 image colors %d",image->colors);
-		for(int y=0;y<image->height;y++){
-			for(int x=0;x<image->width;x++){
+		int x,y;
+		for(y=0;y<image->height;y++){
+			for(x=0;x<image->width;x++){
 				int pos=(x+y*image->width)*3;
 				image8[x+y*image->width]=	0xff000000 | (image->data[pos]<<16) | (image->data[pos+1]<<8) | (image->data[pos+2]);
 			}
