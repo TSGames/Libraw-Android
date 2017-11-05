@@ -9,6 +9,8 @@ LOCAL_LDLIBS    := -lm -llog -ljnigraphics
 #path to LibRAW source root:
 LIBRAW_PATH := $(LOCAL_PATH)/../src
 
+LOCAL_CFLAGS := -fsigned-char
+
 LOCAL_CPPFLAGS := $(LOCAL_CFLAGS) -fexceptions 
 
 LOCAL_C_INCLUDES := $(LIBRAW_PATH)/internal $(LIBRAW_PATH)/libraw $(LIBRAW_PATH)/
