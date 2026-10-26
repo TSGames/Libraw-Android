@@ -1,0 +1,43 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.tssystems.librawtest'
+    compileSdk 35
+    // The NDK the PhotoMate app is built with, so the library is compiled the same way.
+    ndkVersion '29.0.13846066'
+
+    defaultConfig {
+        applicationId 'com.tssystems.librawtest'
+        minSdk 21
+        targetSdk 35
+        versionCode 2
+        versionName '0.22.2'
+        externalNativeBuild {
+            ndkBuild {
+                arguments "NDK_APPLICATION_MK=${file('../jni/Application.mk')}"
+            }
+        }
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            path file('../jni/Android.mk')
+        }
+    }
+
+    sourceSets {
+        main {
+            // com.tssystems.Libraw, the Java side of the JNI bridge, is the file
+            // under java/ that belongs to the source offer; the sample uses it
+            // as it is.
+            java.srcDirs = ['src/main/java', '../java']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
