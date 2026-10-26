@@ -16,10 +16,12 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      # AGP installs the NDK named by ndkVersion in app/build.gradle; the
-      # licences have to be accepted for that.
-      - name: Accept Android SDK licences
-        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+      # The NDK named by ndkVersion in app/build.gradle, the one the PhotoMate
+      # app is built with. The hosted image carries other versions.
+      - name: Install the NDK
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;29.0.13846066"
 
       - name: Build debug APK
         run: ./gradlew --no-daemon assembleDebug
