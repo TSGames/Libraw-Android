@@ -4,8 +4,6 @@ Local patch: Canon EOS R6 Mark III (LibRaw pull request #745)
 Source:   https://github.com/LibRaw/LibRaw/pull/745 (3 commits by
           JuanPabloZambrano, opened 2025-12-28, closed UNMERGED 2026-03-06)
 Applies:  LibRaw 0.22.2, from pictureInfo/ndk/Libraw/jni/src with `patch -p1`
-Status:   not part of any LibRaw release. REMOVE it as soon as an official
-          release supports the camera (see README.md in this directory).
 
 The Changelog.txt hunk of the pull request is left out, nothing builds it.
 

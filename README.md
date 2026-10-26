@@ -15,8 +15,7 @@ included as upstream ships them, together with upstream's copyright notice.
 | `jni/jpeglib/` | The static libjpeg the module links (`-DUSE_JPEG8`) |
 | `jni/Android.mk`, `jni/Application.mk` | The ndk-build files |
 | `java/com/tssystems/Libraw.java` | The Java side of the bridge |
-| `app/`, `build.gradle`, `settings.gradle`, `gradlew` | A small sample app ("open a RAW file") that loads the library, so it can be tried on a phone |
-| `.github/workflows/debug-apk.yml` | Builds the sample's debug APK in CI; download it from the workflow run's artifacts |
+| `app/`, `build.gradle`, `settings.gradle` | A small sample app that opens a RAW file with the library |
 | `patches/` | Every difference from pristine upstream, one patch per file, plus `MANIFEST.json` |
 | `LICENSE.LGPL` / `LICENSE.CDDL` / `COPYRIGHT` | Upstream's own |
 
@@ -28,13 +27,8 @@ included as upstream ships them, together with upstream's copyright notice.
 
 ## What differs from upstream
 
-The tree is pristine upstream plus the four aggregation units that `#include`
-upstream's sources (`jni/src/internal/dcraw_*.cpp`,
-`jni/src/internal/demosaic_packs.cpp`, `jni/src/src/libraw_cxx.cpp`) plus **one
-local patch**: Canon EOS R6 Mark III support, taken unchanged from LibRaw pull
-request #745, which LibRaw closed without merging (`patches/local/`).
-`patches/MANIFEST.json` lists the six files it touches. The patch is removed as
-soon as a LibRaw release supports the camera.
+Every difference from pristine upstream is in `patches/`: one patch per file,
+plus `MANIFEST.json`.
 
 ## Rebuilding
 
@@ -46,10 +40,3 @@ With an Android NDK (the app is built with 29.0.13846066):
 This produces `libs/<abi>/liblibraw.so` for armeabi-v7a, x86, x86_64 and
 arm64-v8a. The library is loaded by name (`System.loadLibrary("libraw")`), so a
 rebuilt one can replace the one inside the app's APK.
-
-## Sample app and debug APK
-
-`./gradlew assembleDebug` (JDK 17, Android SDK, NDK 29.0.13846066) builds the
-sample into `app/build/outputs/apk/debug/app-debug.apk`. The GitHub Actions
-workflow "Debug APK" does the same on every push and keeps the APK as a workflow
-artifact for 14 days; nothing is committed as a binary.
