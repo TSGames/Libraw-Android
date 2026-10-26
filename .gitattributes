@@ -1,0 +1,9 @@
+# No end-of-line normalisation anywhere in this repository.
+#
+# What is published here has to be byte-identical to what was built and to the
+# patches that describe it. Git's usual normalisation is helpful in a working
+# repository and wrong here: doc/API-datastruct.html carries five stray CR
+# characters as CONTENT, and its patch is checked out verbatim for that reason.
+# A blanket CRLF-to-LF pass makes every hunk apply and reconstructs a file
+# upstream never was.
+* -text

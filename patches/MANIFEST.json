@@ -1,0 +1,102 @@
+{
+  "generator": "ios/Native/generate-libraw-patches.py",
+  "upstream": {
+    "project": "LibRaw",
+    "version": "0.22.2",
+    "url": "https://github.com/LibRaw/LibRaw/archive/refs/tags/0.22.2.tar.gz",
+    "archive_sha256": "55615c6a3f37a3cdf76e56e4c455307bf12b7d41f00bc7ce52f2e02833665b73",
+    "line_endings": "CRLF upstream, LF in the vendored tree; patches apply to the LF-normalised upstream file"
+  },
+  "vendored_root": "pictureInfo/ndk/Libraw/jni/src",
+  "translation_units": [
+    "internal/dcraw_common.cpp",
+    "internal/dcraw_fileio.cpp",
+    "internal/demosaic_packs.cpp",
+    "src/libraw_datastream.cpp",
+    "src/libraw_cxx.cpp",
+    "src/libraw_c_api.cpp"
+  ],
+  "modified": [
+    {
+      "path": "internal/libraw_cameraids.h",
+      "patch": "internal__libraw_cameraids.h.patch",
+      "kind": "content",
+      "compiled": true,
+      "upstream_sha256": "69b7a108d7abe11b52b07543452631fd5496e4e00db596c82e99f8990f93dd58",
+      "upstream_lf_sha256": "c7c1a59976208dcb5cd6a7334dd5bd59607cc8b7b16c500585aba5997eb794fc",
+      "vendored_sha256": "e4e0b9842829cb037d49ced7d8233221abe4dc11c57c67f2194496b30ea18c2d"
+    },
+    {
+      "path": "src/metadata/canon.cpp",
+      "patch": "src__metadata__canon.cpp.patch",
+      "kind": "content",
+      "compiled": true,
+      "upstream_sha256": "c4fb78c71326f190c986f85ceea5c4599db42e0a7d7a7d722b7c9ca393e18713",
+      "upstream_lf_sha256": "c4fb78c71326f190c986f85ceea5c4599db42e0a7d7a7d722b7c9ca393e18713",
+      "vendored_sha256": "81d7f742de01d7e74d1e78d9b30cb88a6b10ff77186ea6081f502f032a0628cf"
+    },
+    {
+      "path": "src/metadata/identify.cpp",
+      "patch": "src__metadata__identify.cpp.patch",
+      "kind": "content",
+      "compiled": true,
+      "upstream_sha256": "715cfb9904b8b657f3f658e653da5fea4efa4bc78d16bd955c796843b1696e14",
+      "upstream_lf_sha256": "715cfb9904b8b657f3f658e653da5fea4efa4bc78d16bd955c796843b1696e14",
+      "vendored_sha256": "f449b9f3809b5b75713c9fc3f13a8c39d6733d1c028c7439f038d382bcfdbdd8"
+    },
+    {
+      "path": "src/metadata/normalize_model.cpp",
+      "patch": "src__metadata__normalize_model.cpp.patch",
+      "kind": "content",
+      "compiled": true,
+      "upstream_sha256": "1e12886c679c8941eb4f84e447ba89c7c88c31f3b2a05508fd1510939eb3fdfa",
+      "upstream_lf_sha256": "1e12886c679c8941eb4f84e447ba89c7c88c31f3b2a05508fd1510939eb3fdfa",
+      "vendored_sha256": "b64d69d1a81a885987c9e0d173a0cd5dbeebb78a66eb8867ed9092744e7736e9"
+    },
+    {
+      "path": "src/tables/cameralist.cpp",
+      "patch": "src__tables__cameralist.cpp.patch",
+      "kind": "content",
+      "compiled": true,
+      "upstream_sha256": "7db5ef12c6ef5b81a81f344b798701f04beee27b340675911f848b22ec611bd7",
+      "upstream_lf_sha256": "7db5ef12c6ef5b81a81f344b798701f04beee27b340675911f848b22ec611bd7",
+      "vendored_sha256": "3093a35f0d2161277ea5756799afe211b3f323df565c937956dd0a1e9bcbde52"
+    },
+    {
+      "path": "src/tables/colordata.cpp",
+      "patch": "src__tables__colordata.cpp.patch",
+      "kind": "content",
+      "compiled": true,
+      "upstream_sha256": "621d6a7e1a1904095d27087cf10ac7e935c6a984ec336816b79c273a8eaca768",
+      "upstream_lf_sha256": "621d6a7e1a1904095d27087cf10ac7e935c6a984ec336816b79c273a8eaca768",
+      "vendored_sha256": "117cfc45e1d5ff3dd30449d67bc3549a9eb8c13c72de409e3b57a3490fb296bb"
+    }
+  ],
+  "added": [
+    {
+      "path": "internal/dcraw_common.cpp",
+      "category": "generated-aggregation-unit",
+      "compiled": true,
+      "vendored_sha256": "f784e73c8ce8c03b252832517755445e9b977f29872bd682cbfb4c8f609632b8"
+    },
+    {
+      "path": "internal/dcraw_fileio.cpp",
+      "category": "generated-aggregation-unit",
+      "compiled": true,
+      "vendored_sha256": "431d789b27dae2c732bb6f465d8a6fec998db4c42e66938bbd1e0a5316e53044"
+    },
+    {
+      "path": "internal/demosaic_packs.cpp",
+      "category": "generated-aggregation-unit",
+      "compiled": true,
+      "vendored_sha256": "0b2119c782606770d684356ad58211dcb035f674d3aead0cbd02b9ab60f94dfe"
+    },
+    {
+      "path": "src/libraw_cxx.cpp",
+      "category": "generated-aggregation-unit",
+      "compiled": true,
+      "vendored_sha256": "3ac0a193251a18c4c4d9f9f3159c9a81540fed4d9f6a080f97d0f7c3c6186e2f"
+    }
+  ],
+  "removed": []
+}

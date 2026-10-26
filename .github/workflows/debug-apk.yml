@@ -1,0 +1,55 @@
+name: Debug APK
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      # The NDK named by ndkVersion in app/build.gradle, the one the PhotoMate
+      # app is built with. The hosted image carries other versions.
+      - name: Install the NDK
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;29.0.13846066"
+
+      - name: Build debug APK
+        run: ./gradlew --no-daemon assembleDebug
+
+      - name: Show the shared libraries in the APK
+        run: unzip -l app/build/outputs/apk/debug/app-debug.apk | grep liblibraw.so
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: libraw-android-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 14
+
+      # One commit on the apk branch, force-pushed every time, so the repository
+      # does not grow by an APK per build. Pushes made with GITHUB_TOKEN do not
+      # start another workflow run.
+      - name: Publish the APK on the apk branch
+        if: github.event_name == 'push'
+        run: |
+          mkdir "$RUNNER_TEMP/apk"
+          cp app/build/outputs/apk/debug/app-debug.apk "$RUNNER_TEMP/apk/"
+          cd "$RUNNER_TEMP/apk"
+          git init -q -b apk
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app-debug.apk
+          git commit -q -m "Debug APK of ${GITHUB_REF_NAME} ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" apk

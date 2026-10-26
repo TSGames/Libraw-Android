@@ -87,11 +87,17 @@ public class MainActivity extends Activity {
                     os.close();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    status.setText("Exception while decoding "+uri.getPath()+": "+e.toString());
+                    final String message="Exception while decoding "+uri.getPath()+": "+e.toString();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            status.setText(message);
+                        }
+                    });
                 }
                 String path=getFileStreamPath("temp").getAbsolutePath();
 
-                final Bitmap bitmap=Libraw.decodeAsBitmap(path,true);
+                final Bitmap bitmap=Decoder.decodeAsBitmap(path,true);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
