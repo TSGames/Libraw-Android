@@ -1,0 +1,114 @@
+Local patch: Canon EOS R6 Mark III (LibRaw pull request #745)
+==============================================================
+
+Source:   https://github.com/LibRaw/LibRaw/pull/745 (3 commits by
+          JuanPabloZambrano, opened 2025-12-28, closed UNMERGED 2026-03-06)
+Applies:  LibRaw 0.22.2, from pictureInfo/ndk/Libraw/jni/src with `patch -p1`
+Status:   not part of any LibRaw release. REMOVE it as soon as an official
+          release supports the camera (see README.md in this directory).
+
+The Changelog.txt hunk of the pull request is left out, nothing builds it.
+
+diff --git a/internal/libraw_cameraids.h b/internal/libraw_cameraids.h
+index 653d283..295374b 100644
+--- a/internal/libraw_cameraids.h
++++ b/internal/libraw_cameraids.h
+@@ -100,6 +100,7 @@ it under the terms of the one of two licenses as you choose:
+ #define CanonID_EOS_R1            (0x80000000ULL + 0x495ULL)
+ #define CanonID_EOS_R5_Mark_II    (0x80000000ULL + 0x496ULL)
+ #define CanonID_EOS_R100          (0x80000000ULL + 0x498ULL)
++#define CanonID_EOS_R6m3          (0x80000000ULL + 0x518ULL)
+ 
+ // CanonID_EOS_D2000C after Canon's TIFF2CR2 convertor:
+ #define CanonID_EOS_D2000C        (0x80000000ULL + 0x520ULL)
+diff --git a/src/metadata/canon.cpp b/src/metadata/canon.cpp
+index 5def57d..4f79262 100644
+--- a/src/metadata/canon.cpp
++++ b/src/metadata/canon.cpp
+@@ -118,6 +118,7 @@ void LibRaw::setCanonBodyFeatures(unsigned long long id)
+            || (id == CanonID_EOS_R5_C)
+            || (id == CanonID_EOS_R6)
+            || (id == CanonID_EOS_R6m2)
++           || (id == CanonID_EOS_R6m3)
+            || (id == CanonID_EOS_R8)
+           )
+   {
+@@ -1308,7 +1309,7 @@ void LibRaw::parseCanonMakernotes(unsigned tag, unsigned type, unsigned len, uns
+       break;
+ 
+     case 3973: // R3; ColorDataSubVer: 34
+-    case 3778: // R6 Mark II, R7, R8, R10, R50; ColorDataSubVer: 48
++    case 3778: // R6 Mark II, R6 Mark III, R7, R8, R10, R50; ColorDataSubVer: 48, 66
+       imCanon.ColorDataVer = 11;
+       AsShot_Auto_MeasuredWB(0x0069);
+ 
+@@ -1316,9 +1317,18 @@ void LibRaw::parseCanonMakernotes(unsigned tag, unsigned type, unsigned len, uns
+       Canon_WBpresets(2, 12);
+       fseek(ifp, save1 + ((0x0069+0x00c3) << 1), SEEK_SET);
+       Canon_WBCTpresets(0);
++
+       offsetChannelBlackLevel2 = save1 + ((0x0069+0x0102) << 1);
+       offsetChannelBlackLevel  = save1 + ((0x0069+0x0213) << 1);
+-      offsetWhiteLevels        = save1 + ((0x0069+0x0217) << 1);
++
++      if (imCanon.ColorDataSubVer == 66) // R6 Mark III
++      {
++        offsetWhiteLevels = save1 + ((0x0069+0x022b) << 1);
++      }
++      else // R6 Mark II, R7, R8, R10, R50; ColorDataSubVer: 48
++      {
++        offsetWhiteLevels = save1 + ((0x0069+0x0217) << 1);
++      }
+       break;
+ 
+     case 4528: // R1, R5 Mark II; ColorDataSubVer: 64
+diff --git a/src/metadata/identify.cpp b/src/metadata/identify.cpp
+index 98586a5..5f5c280 100644
+--- a/src/metadata/identify.cpp
++++ b/src/metadata/identify.cpp
+@@ -271,6 +271,8 @@ void LibRaw::identify()
+ 	  { 6192, 4152, 160, 120, 0, 0}, // EOS R3
+ 	  { 6192, 4060, 168, 52, 24, 8, 16,48,32,0}, // EOS R10
+ 	  { 6188, 4120, 154, 96, 12, 0, 16, 48, 32, 0}, // EOS R6mk2
++	  { 7144, 4760, 172, 108, 0, 0, 16, 48, 32, 0}, // EOS R6mk3
++	  { 4512, 2994, 180, 108, 0, 0, 16, 48, 32, 0}, // EOS R6mk3, 1.6x crop
+ 	  { 8480, 5650, 258, 162, 0, 0, 128, 2, 128, 0}, // EOS R5mk2, FF
+ 	  { 5376, 3574, 258, 162, 0, 0, 128, 2, 128, 0}, // EOS R5mk2, APS
+ 	  { 6160, 4144, 128, 120, 0, 0}, // EOS R1, FF
+diff --git a/src/metadata/normalize_model.cpp b/src/metadata/normalize_model.cpp
+index 29ef12b..336025a 100644
+--- a/src/metadata/normalize_model.cpp
++++ b/src/metadata/normalize_model.cpp
+@@ -109,6 +109,7 @@ void LibRaw::GetNormalizedModel()
+       { CanonID_EOS_M50_Mark_II,   "EOS M50 Mark II"}, // M50m2, Kiss M2
+       { CanonID_EOS_R50,           "EOS R50"},
+       { CanonID_EOS_R6m2,          "EOS R6 Mark II"},
++      { CanonID_EOS_R6m3,          "EOS R6 Mark III"},
+       { CanonID_EOS_R8,            "EOS R8"},
+       { CanonID_EOS_R1,            "EOS R1"},
+       { CanonID_EOS_R5_Mark_II,    "EOS R5 Mark II"}, // EOS R5m2
+diff --git a/src/tables/cameralist.cpp b/src/tables/cameralist.cpp
+index a5c9ccc..8ba5669 100644
+--- a/src/tables/cameralist.cpp
++++ b/src/tables/cameralist.cpp
+@@ -158,6 +158,7 @@ static const char *static_camera_list[] = {
+ 	"Canon EOS R5 Mark II",
+ 	"Canon EOS R6",
+ 	"Canon EOS R6 Mark II",
++	"Canon EOS R6 Mark III",
+ 	"Canon EOS R7",
+ 	"Canon EOS R8",
+ 	"Canon EOS R10",
+diff --git a/src/tables/colordata.cpp b/src/tables/colordata.cpp
+index 86dcd67..3197733 100644
+--- a/src/tables/colordata.cpp
++++ b/src/tables/colordata.cpp
+@@ -157,6 +157,8 @@ int LibRaw::adobe_coeff(unsigned make_idx, const char *t_model,
+ 
+ 	{ LIBRAW_CAMERAMAKER_Canon, "EOS R5", 0, 0,
+ 	  { 9766,-2953,-1254,-4276,12116,2433,-437,1336,5131 } }, // same CMs: "EOS R5", "EOS R5 C"
++  { LIBRAW_CAMERAMAKER_Canon, "EOS R6 Mark III", 0, 0,
++	  { 8309, -1786, -1095, -4851, 12736, 2353, -956, 1911, 5534 } },
+ 	{ LIBRAW_CAMERAMAKER_Canon, "EOS R6 Mark II", 0, 0,
+ 	  { 9539, -2795, -1224, -4175, 11998, 2458, -465, 1755,6048 } },
+ 	{ LIBRAW_CAMERAMAKER_Canon, "EOS R6", 0, 0,
