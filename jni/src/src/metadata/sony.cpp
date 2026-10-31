@@ -362,6 +362,8 @@ void LibRaw::setSonyBodyFeatures(unsigned long long id) {
        LIBRAW_SONY_Tag2010None, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff},
       {SonyID_ZV_E10M2, sbfILCE_DX,
        LIBRAW_SONY_Tag2010None, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff},
+      {SonyID_ILCE_7M5, sbfILCE_FF,
+       LIBRAW_SONY_Tag2010None, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff},
   };
   ilm.CamID = id;
   int isPreProductionFW = 0;
@@ -451,6 +453,7 @@ void LibRaw::setSonyBodyFeatures(unsigned long long id) {
   case SonyID_ILCE_7CR:
   case SonyID_ILCE_7CM2:
   case SonyID_ILCE_9M3:
+  case SonyID_ILCE_7M5:
   case SonyID_ZV_E10M2:
     imSony.group9050 = LIBRAW_SONY_Tag9050d;
     break;

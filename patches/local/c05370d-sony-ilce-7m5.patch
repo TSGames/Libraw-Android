@@ -1,0 +1,94 @@
+Local patch: Sony ILCE-7M5 / A7 V (LibRaw commit c05370d, pull request #825)
+=============================================================================
+
+Source:   https://github.com/LibRaw/LibRaw/commit/c05370da7246ecdc690b65f6c1789974cd3ed5c0
+          (merged 2026-07-18, closes issue #776; after 0.22.2, not in any release)
+Applies:  LibRaw 0.22.2, from pictureInfo/ndk/Libraw/jni/src with `patch -p1`
+
+Left out: the one-line comment edit in Sony0x9400 (sony.cpp), it changes no code.
+The camera id line in internal/libraw_cameraids.h sits behind SonyID_ILME_FX2
+here because 0.22.2 has no SonyID_ILCE_1M2.
+
+diff --git a/internal/libraw_cameraids.h b/internal/libraw_cameraids.h
+index f897245..5c3b7e2 100644
+--- a/internal/libraw_cameraids.h
++++ b/internal/libraw_cameraids.h
+@@ -344,4 +344,5 @@ it under the terms of the one of two licenses as you choose:
+ #define SonyID_ILX_LR1          0x18eULL
+ #define SonyID_ZV_E10M2         0x18fULL
+ #define SonyID_ILME_FX2         0x196ULL
++#define SonyID_ILCE_7M5         0x197ULL
+ #endif
+diff --git a/src/metadata/identify.cpp b/src/metadata/identify.cpp
+index 8307e86..2ad34e4 100644
+--- a/src/metadata/identify.cpp
++++ b/src/metadata/identify.cpp
+@@ -3134,7 +3134,7 @@ void LibRaw::identify_finetune_dcr(char head[64], INT64 fsize, INT64 flen)
+ 
+ 		  /* need samples for lossy small/medium w/ APC crop*/
+         }
+-        else if ((unique_id == SonyID_ILCE_7M4)|| (unique_id == SonyID_ILCE_7CM2) || (unique_id == SonyID_ILME_FX2))
++        else if ((unique_id == SonyID_ILCE_7M4) || (unique_id == SonyID_ILCE_7CM2) || (unique_id == SonyID_ILME_FX2) || (unique_id == SonyID_ILCE_7M5))
+         {
+           if (raw_width == 7168 && raw_height == 5120) 
+           {
+diff --git a/src/metadata/normalize_model.cpp b/src/metadata/normalize_model.cpp
+index 336025a..a5ed5e4 100644
+--- a/src/metadata/normalize_model.cpp
++++ b/src/metadata/normalize_model.cpp
+@@ -399,6 +399,7 @@ void LibRaw::GetNormalizedModel()
+       { SonyID_ILX_LR1,        "ILX-LR1"},
+       { SonyID_ZV_E10M2,       "ZV-E10M2"},
+       { SonyID_ILME_FX2,       "ILME-FX2"},
++      { SonyID_ILCE_7M5,       "ILCE-7M5"},
+ };
+ 
+   static const char *orig;
+diff --git a/src/metadata/sony.cpp b/src/metadata/sony.cpp
+index 9289ca7..6a25e3b 100644
+--- a/src/metadata/sony.cpp
++++ b/src/metadata/sony.cpp
+@@ -362,6 +362,8 @@ void LibRaw::setSonyBodyFeatures(unsigned long long id) {
+        LIBRAW_SONY_Tag2010None, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff},
+       {SonyID_ZV_E10M2, sbfILCE_DX,
+        LIBRAW_SONY_Tag2010None, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff},
++      {SonyID_ILCE_7M5, sbfILCE_FF,
++       LIBRAW_SONY_Tag2010None, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff},
+   };
+   ilm.CamID = id;
+   int isPreProductionFW = 0;
+@@ -451,6 +453,7 @@ void LibRaw::setSonyBodyFeatures(unsigned long long id) {
+   case SonyID_ILCE_7CR:
+   case SonyID_ILCE_7CM2:
+   case SonyID_ILCE_9M3:
++  case SonyID_ILCE_7M5:
+   case SonyID_ZV_E10M2:
+     imSony.group9050 = LIBRAW_SONY_Tag9050d;
+     break;
+diff --git a/src/tables/cameralist.cpp b/src/tables/cameralist.cpp
+index dcb01a9..64f8502 100644
+--- a/src/tables/cameralist.cpp
++++ b/src/tables/cameralist.cpp
+@@ -1182,6 +1182,7 @@ static const char *static_camera_list[] = {
+ 	"Sony ILCE-7M2 (A7 II)",
+ 	"Sony ILCE-7M3 (A7 III)",
+ 	"Sony ILCE-7M4 (A7 IV)",
++	"Sony ILCE-7M5 (A7 V)",
+ 	"Sony ILCE-7C (A7C)",
+ 	"Sony ILCE-7CR (A7CR)",
+ 	"Sony ILCE-7CM2 (A7C II)",
+diff --git a/src/tables/colordata.cpp b/src/tables/colordata.cpp
+index 3197733..4103213 100644
+--- a/src/tables/colordata.cpp
++++ b/src/tables/colordata.cpp
+@@ -1770,7 +1770,9 @@ int LibRaw::adobe_coeff(unsigned make_idx, const char *t_model,
+       { 7460,-2365,-588,-5687,13442,2474,-624,1156,6584 } },
+     { LIBRAW_CAMERAMAKER_Sony, "ILCE-7C", 0, 0,
+       { 7374,-2389,-551,-5435,13162,2519,-1006,1795,6552 } },
+-
++	  
++    { LIBRAW_CAMERAMAKER_Sony, "ILCE-7M5", 0, 0,
++      { 9089, -3577, -787, -3563, 11326, 2557, -114, 928, 5904 } },
+     { LIBRAW_CAMERAMAKER_Sony, "ILCE-7M4", 0, 0,
+       { 7460,-2365,-588,-5687,13442,2474,-624,1156,6584 } },
+     { LIBRAW_CAMERAMAKER_Sony, "ILCE-7M3", 0, 0,

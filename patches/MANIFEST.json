@@ -2,9 +2,9 @@
   "generator": "ios/Native/generate-libraw-patches.py",
   "upstream": {
     "project": "LibRaw",
-    "version": "0.22.2",
-    "url": "https://github.com/LibRaw/LibRaw/archive/refs/tags/0.22.2.tar.gz",
-    "archive_sha256": "55615c6a3f37a3cdf76e56e4c455307bf12b7d41f00bc7ce52f2e02833665b73",
+    "version": "0.22.3",
+    "url": "https://github.com/LibRaw/LibRaw/archive/refs/tags/0.22.3.tar.gz",
+    "archive_sha256": "789f3c33466210a1a0907f747a97c715d21bbf4af712f257fcbbd90111b227e4",
     "line_endings": "CRLF upstream, LF in the vendored tree; patches apply to the LF-normalised upstream file"
   },
   "vendored_root": "pictureInfo/ndk/Libraw/jni/src",
@@ -24,7 +24,16 @@
       "compiled": true,
       "upstream_sha256": "69b7a108d7abe11b52b07543452631fd5496e4e00db596c82e99f8990f93dd58",
       "upstream_lf_sha256": "c7c1a59976208dcb5cd6a7334dd5bd59607cc8b7b16c500585aba5997eb794fc",
-      "vendored_sha256": "e4e0b9842829cb037d49ced7d8233221abe4dc11c57c67f2194496b30ea18c2d"
+      "vendored_sha256": "74a8601ab77e4e1e1898ed7bf322ff1c7973b1eef046abe1005925953b08705e"
+    },
+    {
+      "path": "internal/libraw_internal_funcs.h",
+      "patch": "internal__libraw_internal_funcs.h.patch",
+      "kind": "content",
+      "compiled": true,
+      "upstream_sha256": "00dc9059fc06918ebd080265fc8be57dbfe4cf9f2c00be63352dce17fcd68dd0",
+      "upstream_lf_sha256": "00dc9059fc06918ebd080265fc8be57dbfe4cf9f2c00be63352dce17fcd68dd0",
+      "vendored_sha256": "dad73542f14560470dc26e792ecb055ea062840aa826037dfadf5837786f4ad7"
     },
     {
       "path": "src/metadata/canon.cpp",
@@ -42,16 +51,34 @@
       "compiled": true,
       "upstream_sha256": "715cfb9904b8b657f3f658e653da5fea4efa4bc78d16bd955c796843b1696e14",
       "upstream_lf_sha256": "715cfb9904b8b657f3f658e653da5fea4efa4bc78d16bd955c796843b1696e14",
-      "vendored_sha256": "f449b9f3809b5b75713c9fc3f13a8c39d6733d1c028c7439f038d382bcfdbdd8"
+      "vendored_sha256": "a419eb0e376948fdec6713177002a6f348081de11f6f0dbb8ae8b1e2318a592d"
     },
     {
       "path": "src/metadata/normalize_model.cpp",
       "patch": "src__metadata__normalize_model.cpp.patch",
       "kind": "content",
       "compiled": true,
-      "upstream_sha256": "1e12886c679c8941eb4f84e447ba89c7c88c31f3b2a05508fd1510939eb3fdfa",
-      "upstream_lf_sha256": "1e12886c679c8941eb4f84e447ba89c7c88c31f3b2a05508fd1510939eb3fdfa",
-      "vendored_sha256": "b64d69d1a81a885987c9e0d173a0cd5dbeebb78a66eb8867ed9092744e7736e9"
+      "upstream_sha256": "70168c5e58c2f680ba884e0baf974bf71e14026807fcfffef735357de8b2e7ce",
+      "upstream_lf_sha256": "70168c5e58c2f680ba884e0baf974bf71e14026807fcfffef735357de8b2e7ce",
+      "vendored_sha256": "631c4592ea6a5ec89ce9242c0bed0b7cb656d7714421571ef9028f32e979728c"
+    },
+    {
+      "path": "src/metadata/sony.cpp",
+      "patch": "src__metadata__sony.cpp.patch",
+      "kind": "content",
+      "compiled": true,
+      "upstream_sha256": "f5dad6c104f935ca885eec4c003a3eda9f62db210427777ed511635915100e4a",
+      "upstream_lf_sha256": "f5dad6c104f935ca885eec4c003a3eda9f62db210427777ed511635915100e4a",
+      "vendored_sha256": "ecac87795e92be2797efab73fb3891b48819461273dca757978f775fbb907fd8"
+    },
+    {
+      "path": "src/metadata/tiff.cpp",
+      "patch": "src__metadata__tiff.cpp.patch",
+      "kind": "content",
+      "compiled": true,
+      "upstream_sha256": "f5d6faa740d7ff2bd14a012f38e13f11d1b5b057a5c470a3d045176274b52a9b",
+      "upstream_lf_sha256": "f5d6faa740d7ff2bd14a012f38e13f11d1b5b057a5c470a3d045176274b52a9b",
+      "vendored_sha256": "5aa9720434ce4c116493316957526a933dcfb064484864399293729b58203d26"
     },
     {
       "path": "src/tables/cameralist.cpp",
@@ -60,7 +87,7 @@
       "compiled": true,
       "upstream_sha256": "7db5ef12c6ef5b81a81f344b798701f04beee27b340675911f848b22ec611bd7",
       "upstream_lf_sha256": "7db5ef12c6ef5b81a81f344b798701f04beee27b340675911f848b22ec611bd7",
-      "vendored_sha256": "3093a35f0d2161277ea5756799afe211b3f323df565c937956dd0a1e9bcbde52"
+      "vendored_sha256": "abdb161e02cbb9d39a399fa2cd3fae3327f934dc35c21f627eaab8aa4c31d152"
     },
     {
       "path": "src/tables/colordata.cpp",
@@ -69,10 +96,52 @@
       "compiled": true,
       "upstream_sha256": "621d6a7e1a1904095d27087cf10ac7e935c6a984ec336816b79c273a8eaca768",
       "upstream_lf_sha256": "621d6a7e1a1904095d27087cf10ac7e935c6a984ec336816b79c273a8eaca768",
-      "vendored_sha256": "117cfc45e1d5ff3dd30449d67bc3549a9eb8c13c72de409e3b57a3490fb296bb"
+      "vendored_sha256": "aa01b10ae9dbb64fc106bca4fcf02c14899fd55caf869acd6d98bf63579525d9"
+    },
+    {
+      "path": "src/utils/decoder_info.cpp",
+      "patch": "src__utils__decoder_info.cpp.patch",
+      "kind": "content",
+      "compiled": true,
+      "upstream_sha256": "1c81efc0587dbf253f9ee4c43ba840c11c0872e165f3be7eb6680c8d40912148",
+      "upstream_lf_sha256": "1c81efc0587dbf253f9ee4c43ba840c11c0872e165f3be7eb6680c8d40912148",
+      "vendored_sha256": "21557a31fae03074c3f3094145f0c887f990a5cc376ad36d20a12c26b70f917c"
+    },
+    {
+      "path": "src/utils/open.cpp",
+      "patch": "src__utils__open.cpp.patch",
+      "kind": "content",
+      "compiled": true,
+      "upstream_sha256": "7e14d880956f307e3216de43c1502747e5fa95d55d49c7ea8157a44f9fce0741",
+      "upstream_lf_sha256": "7e14d880956f307e3216de43c1502747e5fa95d55d49c7ea8157a44f9fce0741",
+      "vendored_sha256": "e34c79df55c70e3ace4bdbfa55d18238f2f7393c00f56d9dbfab843ac9d87788"
     }
   ],
   "added": [
+    {
+      "path": "Makefile.devel",
+      "category": "extra-not-compiled",
+      "compiled": false,
+      "vendored_sha256": "b894e5a7bf768b5d6c1fd58eacb6a68913e8e15e12292975c3824e1e0f61fee7"
+    },
+    {
+      "path": "clist2c.pl",
+      "category": "extra-not-compiled",
+      "compiled": false,
+      "vendored_sha256": "074aec13c8e44da9edc8c6dd81f0b824d4740e3830c4bbdb0b1eeea65860438d"
+    },
+    {
+      "path": "clist2html.pl",
+      "category": "extra-not-compiled",
+      "compiled": false,
+      "vendored_sha256": "6b69158298a25fbe020e36f49429e76b84756c385714630e0fcbb8c0f2142a13"
+    },
+    {
+      "path": "export-dist.sh",
+      "category": "extra-not-compiled",
+      "compiled": false,
+      "vendored_sha256": "f9f1314865f099dfbff50e506ba24f4d3a1d128b0a8d774f7a1aa73a6292298e"
+    },
     {
       "path": "internal/dcraw_common.cpp",
       "category": "generated-aggregation-unit",
@@ -92,11 +161,49 @@
       "vendored_sha256": "0b2119c782606770d684356ad58211dcb035f674d3aead0cbd02b9ab60f94dfe"
     },
     {
+      "path": "mkdist.sh",
+      "category": "extra-not-compiled",
+      "compiled": false,
+      "vendored_sha256": "d14e4688382d5d585bd25587b45984b36494e1df9eb3ebdb87effccda02eba84"
+    },
+    {
+      "path": "src/decoders/sony_arw6.cpp",
+      "category": "local-patch-added-file",
+      "compiled": true,
+      "vendored_sha256": "e7dc103273a6680e95ec5f423ac745635b20da9e38c1f49dc18bca1f60de5946"
+    },
+    {
       "path": "src/libraw_cxx.cpp",
       "category": "generated-aggregation-unit",
       "compiled": true,
-      "vendored_sha256": "3ac0a193251a18c4c4d9f9f3159c9a81540fed4d9f6a080f97d0f7c3c6186e2f"
+      "vendored_sha256": "efb3c282ac17f86a35d541f4deb617fcd7db266342f26b6a3dc70b06d509c2dc"
     }
   ],
-  "removed": []
+  "removed": [
+    "Makefile.in",
+    "aclocal.m4",
+    "autom4te.cache/output.0",
+    "autom4te.cache/output.1",
+    "autom4te.cache/output.2",
+    "autom4te.cache/output.3",
+    "autom4te.cache/requests",
+    "autom4te.cache/traces.0",
+    "autom4te.cache/traces.1",
+    "autom4te.cache/traces.2",
+    "autom4te.cache/traces.3",
+    "bin/.keep_me",
+    "compile",
+    "config.guess",
+    "config.sub",
+    "configure",
+    "depcomp",
+    "install-sh",
+    "ltmain.sh",
+    "m4/libtool.m4",
+    "m4/ltoptions.m4",
+    "m4/ltsugar.m4",
+    "m4/ltversion.m4",
+    "m4/lt~obsolete.m4",
+    "missing"
+  ]
 }
