@@ -61,3 +61,7 @@ it under the terms of the one of two licenses as you choose:
 #include "decoders/pana8.cpp"
 #include "decompressors/losslessjpeg.cpp"
 #include "decoders/sonycc.cpp"
+/* Local patch (patches/local/sony-arw6-craw-hq.patch), not in 0.22.2: LAST, because it includes
+ * dcraw_defs.h, whose macros (width, height, imgdata ...) break any file written
+ * without them that comes after it. */
+#include "decoders/sony_arw6.cpp"

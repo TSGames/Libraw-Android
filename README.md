@@ -21,9 +21,9 @@ included as upstream ships them, together with upstream's copyright notice.
 
 ## Upstream
 
-- **LibRaw 0.22.2**
-- https://github.com/LibRaw/LibRaw/archive/refs/tags/0.22.2.tar.gz
-- Archive SHA-256: `55615c6a3f37a3cdf76e56e4c455307bf12b7d41f00bc7ce52f2e02833665b73`
+- **LibRaw 0.22.3**
+- https://github.com/LibRaw/LibRaw/archive/refs/tags/0.22.3.tar.gz
+- Archive SHA-256: `789f3c33466210a1a0907f747a97c715d21bbf4af712f257fcbbd90111b227e4`
 
 ## What differs from upstream
 
